@@ -9,16 +9,24 @@
 import sys
 from haproxystats import HAProxyServer
 
-haproxy = HAProxyServer(sys.argv[1], sys.argv[2], sys.argv[3], timeout=3)
+try:
 
-for b in haproxy.listeners:
-    if b.name == sys.argv[4]:
-        if b.status == "UP":
-            print("%s : %s" % (b.name, b.status))
-            sys.exit(0)  # Normal exit code
-        elif b.status == "DOWN":
-            print("%s : %s" % (b.name, b.status))
-            sys.exit(2)  # Critical exit code
+    haproxy = HAProxyServer(sys.argv[1], sys.argv[2], sys.argv[3], timeout=3)
+    for b in haproxy.listeners:
+        if b.name == sys.argv[4]:
+            if b.status == "UP":
+                print("%s : %s" % (b.name, b.status))
+                sys.exit(0)  # OK exit code
+            elif b.status == "DOWN":
+                print("%s : %s" % (b.name, b.status))
+                sys.exit(2)  # Critical exit code
+            else:
+                print("UNKNOWN %s : %s" % (b.name, b.status))
+                sys.exit(3)  # UNKNOWN exit code
         else:
-            print("UNKNOWN %s : %s" % (b.name, b.status))
-            sys.exit(1)  # Warning exit code
+            print("No Match Listener")
+            sys.exit(3)
+
+except IndexError as e:
+    print("Wrong ARG : %s" % e)
+    sys.exit(3)
