@@ -20,11 +20,11 @@ if [ $# = 4 ]
         if [ "$STAT" = "L7OK" -o "$STAT" = "L6OK" ]
                 then
                 echo "$STAT =  $_Checkpxname [$_Checksvname]"
-                exit 0
+                exit 0;
 
                 else
                         echo "Critical = You need check service  $_Checkpxname [$_Checksvname]"
-                        exit 2
+                        exit 2;
         fi
 
         else
