@@ -17,6 +17,7 @@ for b in haproxy.listeners:
 
 try:
     if sys.argv[4] in listner:
+
         if listner[sys.argv[4]] == "UP":
             print("%s : %s" % (sys.argv[4], listner[sys.argv[4]]))
             sys.exit(0)  # OK exit code
@@ -26,9 +27,11 @@ try:
         else:
             print("UNKNOWN %s : %s" % (sys.argv[4], listner[sys.argv[4]]))
             sys.exit(3)  # Unknown exit code
+
     else:
         print("Not Matched Listner : %s" % sys.argv[4])
         sys.exit(3) # Unknown exit code
+
 except IndexError as e:
     print("Not Matched Arguments")
     sys.exit(3) # Unknown exit code
