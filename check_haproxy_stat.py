@@ -5,6 +5,7 @@
 #
 # Example
 # > python check_haproxy_stat.py 211.61.155.206:1936 cyebiz Cyebizadmin151 lg-homeboy01
+
 import sys
 from haproxystats import HAProxyServer
 
