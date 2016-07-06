@@ -62,6 +62,7 @@ chmod 755 check_mem.sh
 chown -R nagios.nagios /usr/local/nagios;
 chkconfig --level 35 xinetd on
 
+#systemctl start xinetd
 /etc/init.d/xinetd restart
 
 # cyebiz
