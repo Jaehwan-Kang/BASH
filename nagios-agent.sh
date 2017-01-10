@@ -3,7 +3,7 @@
 # 2016-03-23  changed
 
 
-yum -y install xinetd gcc glibc.i686 openssl openssl-devel
+yum -y install xinetd gcc glibc.i686 openssl openssl-devel perl-Nagios-Plugin
 
 sed -i 's/log_type/#log_type/g' /etc/xinetd.conf
 sed -i 's/log_on_failure/#log_on_failure/g' /etc/xinetd.conf
@@ -60,10 +60,16 @@ wget manager.cyebiz.com:24567/setting/check_mem.sh
 chmod 755 check_ps.sh
 chmod 755 check_mem.sh
 chown -R nagios.nagios /usr/local/nagios;
-chkconfig --level 35 xinetd on
 
-#systemctl start xinetd
-/etc/init.d/xinetd restart
+
+
+#centos 6
+#chkconfig --level 35 xinetd on
+#/etc/init.d/xinetd restart
+
+# centos7
+systemctl start xinetd
+systemctl enable xinetd
 
 # cyebiz
 # Manager Nagios

@@ -23,16 +23,17 @@ while read _Log
         `answer | xe snapshot-uninstall snapshot-uuid="$_SnapshotOldUUID"`
         done
 
+
 ## Delete Snapshot list
 rm -rf /root/scripts/snapshotlist;
 
 ## DATE
 DATE=`date +%y%m%d`
 
-## VMlist FILE
-xe vm-list | grep "name-label" | awk -F: '{print $2}' | grep "(." | cut -c 2- > /root/scripts/vmlist
+## VMlist FILE ( Stop VM is not snapshot )
+xe vm-list | grep "name-label" | awk -F: '{print $2}' | grep "(." | cut -c 2- | grep -v "shutdown" > /root/scripts/vmlist
 
-## read vm lists 
+## read vm lists
 exec < /root/scripts/vmlist
 
 ## snapshots and snapshot LOG
@@ -42,7 +43,7 @@ while read _VMname
         echo "$_VMname:$_SnapshotUUID" >> /root/scripts/snapshotlist
         done
 
-## 변수 해제
+## Unset
 unset DATE;
 unset _Log;
 unset _SnapshotUUID;
