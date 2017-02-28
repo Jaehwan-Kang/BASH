@@ -42,7 +42,7 @@ echo "" >> /etc/services
 echo "# ADD service" >> /etc/services
 echo "nrpe            5666/tcp                #NRPE" >> /etc/services
 
-sed -i 's/127.0.0.1/175.197.46.183/g' /etc/xinetd.d/nrpe
+sed -i 's/127.0.0.1/210.126.1.59/g' /etc/xinetd.d/nrpe
 
 
 
@@ -73,6 +73,5 @@ systemctl enable xinetd
 
 # cyebiz
 # Manager Nagios
-#-A INPUT -s 175.197.46.183 -p tcp --dport 5666 -j ACCEPT
-#-A INPUT -s 175.197.46.183 -p icmp -j ACCEPT
+#-A INPUT -s 210.126.1.59 -p tcp --dport 5666 -j ACCEPT
 # wget manager.cyebiz.com:24567/setting/nagios-agent.sh && sh nagios-agent.sh
