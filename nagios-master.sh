@@ -9,9 +9,9 @@ SRCDIR4=/usr/local/src/nagios/nrpe
 mkdir $SRCDIR; cd $SRCDIR
 echo $SRCDIR
 
-wget setting.dreammiz.com/setting/nagios-3.5.0.tar.gz
-wget setting.dreammiz.com/setting/nagios-plugins-1.4.16.tar.gz
-wget setting.dreammiz.com/setting/nrpe-2.14.tar.gz
+wget manager.cyebiz.com/setting/nagios-3.5.0.tar.gz
+wget manager.cyebiz.com/setting/nagios-plugins-1.4.16.tar.gz
+wget manager.cyebiz.com/setting/nrpe-2.14.tar.gz
 
 tar zxvf nagios-3.5.0.tar.gz
 tar zxvf nagios-plugins-1.4.16.tar.gz
