@@ -73,5 +73,5 @@ systemctl enable xinetd
 
 # cyebiz
 # Manager Nagios
-#-A INPUT -s 210.126.1.59 -p tcp --dport 5666 -j ACCEPT
-# wget manager.cyebiz.com:24567/setting/nagios-agent.sh && sh nagios-agent.sh
+#-A INPUT -s 211.61.155.151 -p tcp --dport 5666 -j ACCEPT
+# wget manager.cyebiz.com/setting/nagios-agent.sh && sh nagios-agent.sh
