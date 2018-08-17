@@ -29,3 +29,16 @@ cd httpd-2.4.32
 --enable-ssl --with-ssl --enable-deflate --enable-rule=SHARED_CORE --with-apr=/usr/local/apr --with-apr-utils=/usr/local/apr
 
 make && make install
+
+
+
+./configure --prefix=/usr/local/php7 --with-mysql-sock=/tmp --with-pdo-mysql=/usr/local/mysql --with-apxs2=/usr/local/apache/bin/apxs --with-config-file-path=/usr/local/apache/conf --with-pic --with-bz2 --enable-ftp --enable-sockets --with-gd --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-png-dir=/usr/lib64 --with-zlib --with-iconv --enable-exif --enable-mbstring --with-mysqli=/usr/local/mysql/bin/mysql_config --with-openssl --with-libxml-dir=/usr/lib64 --enable-soap --with-curl --enable-mbregex --disable-debug --enable-sysvsem --enable-sysvshm --enable-sysvmsg --disable-inline-optimization --enable-bcmath --with-kerberos --with-gettext --with-gmp --enable-sigchild --enable-mbstring --with-pcre-regex --with-layout=GNU --enable-shmop --enable-calendar --with-kerberos --enable-inline-optimization --enable-dba --enable-zip --enable-maintainer-zts --enable-opcache			
+make && make install			
+cd /usr/local/src/php-5.6.36			
+cp -ap php.ini-production /usr/local/apache/conf/php.ini			
+vi /usr/local/apache/conf/php.ini			
+			
+		"AddType application/x-httpd-php .htm .html .php .ph .php3 .php4 .phtml .css .js
+    AddType application/x-httpd-php-source .phps"	
+			
+      
