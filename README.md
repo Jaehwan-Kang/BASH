@@ -32,6 +32,10 @@ make && make install
 
 
 
+./configure --prefix=/usr/local/php --with-mysql=/usr/local/mysql --with-apxs2=/usr/local/apache/bin/apxs --with-config-file-path=/usr/local/apache/conf --with-pic --with-bz2 --enable-ftp --enable-sockets --with-gd --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-png-dir=/usr/lib64 --without-gdbm --with-zlib --with-iconv --enable-exif --enable-mbstring --with-mysqli=/usr/local/mysql/bin/mysql_config --with-openssl --with-libxml-dir=/usr/lib64 --enable-soap --with-curl --enable-mod-charset --enable-mbregex --disable-debug --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-gd-native-ttf --disable-inline-optimization --enable-bcmath --with-kerberos --with-gettext --with-gmp --enable-sigchild --enable-mbstring --with-mcrypt --with-pcre-regex --with-layout=GNU --enable-shmop --enable-calendar --with-kerberos --enable-inline-optimization --enable-dba --enable-zip --enable-maintainer-zts --enable-opcache
+
+
+
 ./configure --prefix=/usr/local/php7 --with-mysql-sock=/tmp --with-pdo-mysql=/usr/local/mysql --with-apxs2=/usr/local/apache/bin/apxs --with-config-file-path=/usr/local/apache/conf --with-pic --with-bz2 --enable-ftp --enable-sockets --with-gd --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-png-dir=/usr/lib64 --with-zlib --with-iconv --enable-exif --enable-mbstring --with-mysqli=/usr/local/mysql/bin/mysql_config --with-openssl --with-libxml-dir=/usr/lib64 --enable-soap --with-curl --enable-mbregex --disable-debug --enable-sysvsem --enable-sysvshm --enable-sysvmsg --disable-inline-optimization --enable-bcmath --with-kerberos --with-gettext --with-gmp --enable-sigchild --enable-mbstring --with-pcre-regex --with-layout=GNU --enable-shmop --enable-calendar --with-kerberos --enable-inline-optimization --enable-dba --enable-zip --enable-maintainer-zts --enable-opcache			
 make && make install			
 cd /usr/local/src/php-5.6.36			
