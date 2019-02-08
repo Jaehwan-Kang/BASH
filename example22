@@ -1,0 +1,223 @@
+#!/bin/sh
+#
+# POPKON-TV Web-admin Application Publish Script. (jh.kang@theenm.com)
+#
+#  1)  origin source (git-auto-deploy)   =>  /home/public_html.ori
+#  2)  service_bofore stop               =>  kill -9 PID
+#  3)  service_bofore delete             =>  /home/public_html.srv
+#  4)  origin source - Release publish   =>  /home/public_html.ori -> /home/public_html.srv
+#  5)  dotnet exec WEB-APPLICATION       =>  dotnet exec "$PROJECT_NAME".dll
+#
+########################################################################## 
+#  
+#
+_Origin_DIR="/home/theenm/public_html.ori"
+_Service_DIR="/home/theenm/public_html.srv"
+_pRojectName="manager_popkontv_com"
+_PidFile="/tmp/dotnet_srv.pid"
+_devPidFile="/tmp/dotnet_ori.pid"
+_Status=`pmap \`cat $_PidFile\` | head -1 | egrep "run|exec"`
+
+
+start () {
+    if [ "$_Status" != "" ]
+        then
+            echo "Service Running... Can not Service Starting..." | grep --color "not";
+            echo "";
+        else
+            /usr/bin/dotnet exec $_Service_DIR/$_pRojectName\.dll &
+            echo $! > $_PidFile;
+            echo -ne '#####                     (33%)\r';
+            sleep 1;
+            echo -ne '#############             (66%)\r';
+            sleep 1;
+            echo -ne '#######################   (100%)\r';
+            echo -ne '\n';
+            echo 'Service Started...';
+            echo "";
+    fi
+}
+
+stop () {
+    if [ "$_Status" == "" ]
+        then
+            echo "Service Not Runnung...";
+            echo "";
+        else
+            /usr/bin/kill -9 `cat $_PidFile`;
+            echo -ne '#####                     (33%)\r';
+            sleep 1;
+            echo -ne '#############             (66%)\r';
+            sleep 1;
+            echo -ne '#######################   (100%)\r';
+            echo -ne '\n';
+            echo 'Service Stoped...' | grep --color "Stop" ;
+            echo "";
+    fi
+}
+
+restart () {
+    stop
+    start
+}
+
+status () {
+    if [ "$_Status" != "" ]
+        then
+            echo "Service Running... dotnet [$_Service_DIR] " | grep --color "Running";
+            echo "";
+        else
+            echo "Service Not Running... dotnet [$_Service_DIR] " | grep --color "Not";
+            echo "";
+    fi
+}
+
+updatestart () {
+    ## Old_Process KILL
+    stop
+
+    echo "Update Building Start" | grep --color "[a-zA-Z]"
+    echo "";
+    
+    ## Source Clear
+    /usr/bin/dotnet nuget locals all -c;
+    /usr/bin/rm -rf $_Service_DIR/*;
+
+    ## BUILD CLEAN
+    /usr/bin/dotnet clean -c Release $_Origin_DIR/$_pRojectName\.csproj;
+
+    ## Port Change
+    /usr/bin/sed -i 's/5001/5000/g' $_Origin_DIR/Properties/launchSettings.json
+    /usr/bin/rm -rf $_Origin_DIR/bin/*;
+    /usr/bin/rm -rf $_Origin_DIR/obj/*;
+
+    ## BUILD & Publish
+    /usr/bin/dotnet publish -c Release $_Origin_DIR/$_pRojectName\.csproj --framework netcoreapp2.0 -o $_Service_DIR;
+
+    ## Port Restore
+    sed -i 's/5000/5001/g' $_Origin_DIR/Properties/launchSettings.json
+
+    # .NetCore Application START
+    /usr/bin/dotnet exec $_Service_DIR/$_pRojectName\.dll &
+    echo $! > $_PidFile;
+    echo -ne '#####                     (33%)\r';
+    sleep 1;
+    echo -ne '#############             (66%)\r';
+    sleep 1;
+    echo -ne '#######################   (100%)\r';
+    echo -ne '\n';
+    echo 'Service Update Started...' | grep --color "Update";
+    echo "";
+}
+
+devstart () {
+    if [ "$_DevStatus" != "" ]
+        then
+            echo "DEV Service Running... Can not Starting..." | grep --color "Can not Starting";
+            echo "";
+        else
+            /usr/bin/dotnet run --project $_Origin_DIR/$_pRojectName\.csproj &
+            echo $! > $_devPidFile;
+            echo -ne '#####                     (33%)\r';
+            sleep 1;
+            echo -ne '#############             (66%)\r';
+            sleep 1;
+            echo -ne '#######################   (100%)\r';
+            echo -ne '\n';
+            sleep 1;
+            echo 'DEV Service Started...' | grep --color "DEV";
+            sleep 1;
+            echo "Please Waiting LISTENING PORT!!!" | grep --color "LISTENING PORT";
+    fi
+}
+
+devstop () {
+    _devPid="`pgrep -P \`cat /tmp/dotnet_ori.pid\`|xargs`";
+    if [ "$_devPid" == "" ]
+        then
+            echo "DEV Service Not Runnung..." | grep --color "DEV";
+            echo "";        
+        else
+            /usr/bin/kill -9 $_devPid;
+            echo -ne '#####                     (33%)\r';
+            sleep 1;
+            echo -ne '#############             (66%)\r';
+            sleep 1;
+            echo -ne '#######################   (100%)\r';
+            echo -ne '\n';
+            echo 'DEV Service Stoped...' | grep --color "Stoped" ;
+            echo "";        
+    fi
+}
+
+devstatus () {
+    _devPid="`pgrep -P \`cat /tmp/dotnet_ori.pid\`|xargs`";
+
+    if [ "$_devPid" != "" ]
+        then
+            echo "DEV Service Running... dotnet [$_Origin_DIR] " | grep --color "DEV";
+            echo "";
+        else
+            echo "DEV Service Not Running... dotnet [$_Origin_DIR] " | grep --color "Not";
+            echo "";
+    fi
+}
+
+
+case "$1" in
+    start)
+        start && exit 0
+        $1
+        ;;
+    stop)
+        stop && exit 0
+        $1
+        ;;
+    restart)
+        restart && exit 0
+        $1
+        ;;
+    status)
+        status && exit 0
+        $1
+        ;;
+    updatestart)
+        updatestart && exit 0
+        $1
+        ;;
+    devstart)
+        devstart && exit 0
+        $1
+        ;;
+    devstop)
+        devstop && exit 0
+        $1
+        ;;
+    devstatus)
+        devstatus && exit 0
+        $1
+        ;;
+
+    \-h|\--help)
+        echo "Usage : $0 {start|stop|restart|status|updatestart|devstart|devstop|devstatus}";
+        echo "";
+        echo "=========== Service .NET Core =============";
+        echo "start       :  service dotnet core start" | grep --color "start";
+        echo "stop        :  service dotnet core stop" | grep --color "stop";
+        echo "status      :  service status check" | grep --color "status";
+        echo "updatestart :  Update dotnet core & Start" | grep --color "Update";
+        echo "============================================";
+        echo "";
+        echo "=========== DEV .NET Core =============";
+        echo "devstart  : develop dotnet project start ";
+        echo "devstop   : develop dotnet project stop ";
+        echo "devstatus : develop dotnet project status check ";
+        echo "";
+        exit 0
+        $1
+        ;;
+    *)
+        echo " Usage : $0 {start|stop|restart|status|updatestart|devstart|devstop|devstatus}";
+        echo " Option -h | --help";
+        exit 0
+esac
