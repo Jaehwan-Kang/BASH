@@ -111,7 +111,8 @@ updatestart () {
 }
 
 devstart () {
-    if [ "$_DevStatus" != "" ]
+    _devPid="`pgrep -P \`cat /tmp/dotnet_ori.pid\`|xargs`";
+    if [ "$_devPid" != "" ]
         then
             echo "DEV Service Running... Can not Starting..." | grep --color "Can not Starting";
             echo "";
