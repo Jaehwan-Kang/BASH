@@ -93,3 +93,11 @@ fi
 
 # ## Old Backup Delete
 # /usr/bin/find $_H_BackDIR -type d -mtime +6 -exec rm -rf {} \;
+
+# Backup Delete 
+# DayBackup - Keep it for 60 days
+/usr/bin/find $_D_BackDIR -type d -mtime +60 -exec rm -rf {} \;
+# DayBackup - Keep it for 24 weeks
+/usr/bin/find $_W_BackDIR -type d -mtime +151 -exec rm -rf {} \;
+# DayBackup - Keep it for 12 month 
+/usr/bin/find $_M_BackDIR -type d -mtime +365 -exec rm -rf {} \;
