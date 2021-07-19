@@ -60,7 +60,7 @@ if [ "$TMP" != "" ]
 				date=`date +%Y"-"%m"-"%d" "%T`
 				
 				# Insert DataBase
-				mysql -h 192.168.0.171 -u dreammiz -pcybermiz -e "use _lottec; insert into dream_lottecd (name, handphone, email, insdate) values ('$name', '$r_phone', '$email', '$date');"
+				mysql -h 192.168.0.171 -u -p -e "use _lottec; insert into dream_lottecd (name, handphone, email, insdate) values ('$name', '$r_phone', '$email', '$date');"
 				done
 		done
 fi
